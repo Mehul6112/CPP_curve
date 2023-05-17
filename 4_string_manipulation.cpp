@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstring>
+#include <cctype>
 using namespace std;
 
 void showAddress(string str) {
@@ -43,14 +44,16 @@ int lengthOfString(const char* str) {
     return count;
 }
 
-void convertToLowercase(string& str) {
-    for (int i = 0; i < str.length(); i++) {
-        if (str[i] >= 'A' && str[i] <= 'Z') {
-            str[i] = str[i] + 32;
+void convertToUppercase(const string& str) {
+    string result = str;
+    for (char& c : result) {
+        if (islower(c)) {
+            c = toupper(c);
         }
     }
-    cout << "String in lowercase: " << str << endl;
-}
+    cout << "Uppercased string: " << result << endl;
+
+    }
 
 void reverseString(string& str) {
     for (int i = 0, j = str.length() - 1; i < j; i++, j--) {
@@ -59,29 +62,54 @@ void reverseString(string& str) {
     cout << "Reversed string: " << str << endl;
 }
 
+string insertString(const string& str1, const string& str2, size_t position) {
+    
+    if (position > str1.length()) {
+        return str1;
+    }
+    string result = str1;
+    result.insert(position, str2);
+    return result;
+    
+}
+
 
 int main() 
 {
     string str, str1, str2;
+    size_t position;
     cout << "Enter a string: ";
     cin >> str;
     cout << "Enter first string: ";
     cin >> str1;
     cout << "Enter second string: ";
     cin >> str2;
+    cout << "Enter the position to insert" << str2 << "at:";
+    cin >> position;
+    int len = lengthOfString(str.c_str());
+
     cout << "\nString Manipulation Menu\n";
 
     cout << "1. Show address of each character in string\n";
     showAddress(str1);
+    
     cout << "2. Concatenate two strings\n";
     concatenateStrings(str1, str2);
+    
     cout << "3. Compare two strings\n";
     compareStrings(str1, str2);
+    
     cout << "4. Calculate length of the string (using pointers)\n";
-    int len = lengthOfString(str.c_str());
     cout << "Length of the string: " << len << endl;
+    
     cout << "5. Convert all lowercase characters to uppercase\n";
-    convertToLowercase(str);
+    convertToUppercase(str);
+    
     cout << "6. Reverse the string\n";
     reverseString(str);
+    
+    cout << "7. Inserting a string in another string." <<endl;
+    string modifiedString = insertString(str1, str2, position);
+    cout << modifiedString << endl;
+
 }
